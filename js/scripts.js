@@ -70,15 +70,15 @@ function generateModal(user) {
     users = user.results;
     const containerDiv = document.createElement('DIV');
     containerDiv.className = 'modal-container';
-
-    let userInfo = users.map(user => {
+    let userInfo ="";
+   users.map(user => {
       
-        `
+      let html =  `
  <div class="modal-container">
 <div class="modal">
     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
     <div class="modal-info-container">
-        <img class="modal-img" src=${user.picture.thumbnail} alt="profile picture">
+        <img class="modal-img" src=${user.picture.large} alt="profile picture">
         <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
         <p class="modal-text">${user.email}</p>
         <p class="modal-text cap">${user.location.city}</p>
@@ -89,7 +89,7 @@ function generateModal(user) {
     </div>
 </div>
 
-`;
+`; userInfo += html;
 
  // // IMPORTANT: Below is only for exceeds tasks 
     // <div class="modal-btn-container">
@@ -105,7 +105,7 @@ function generateModal(user) {
    
     gallery.appendChild(containerDiv);
     console.log(gallery);
-   // $('.modal-container').hide();
+
 
 }
 
@@ -115,13 +115,13 @@ gallery.addEventListener('click', e => {
     if (e.target.className.includes('card')) {
         
         generateModal(user);
-      //  $('.modal-container').show();
+
     }
 
 });
 
 }
-// const closeBtn = document.getElementById('modal-close-btn');
+// const closeBtn= document.getElementById("modal-close-btn");
 // closeBtn.addEventListener('click',  () => {
 //     containerDiv.remove();
 
