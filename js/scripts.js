@@ -15,9 +15,7 @@ fetchData("https://randomuser.me/api/?nat=US&results=12")
 
     .then(user => {
         generateGallery(user);
-        generateModal(user);
         eventListener(user);
-        console.log(eventListener(user));
         generateForm();
     });
 
@@ -67,9 +65,9 @@ function generateGallery(user) { //Generates and displays user to gallery div
 }
 
 
-function generateModal(data) {
+function generateModal(user) {
 
-    users = data.results;
+    users = user.results;
     const containerDiv = document.createElement('DIV');
     containerDiv.className = 'modal-container';
 
@@ -92,6 +90,7 @@ function generateModal(data) {
 </div>
 
 `;
+
  // // IMPORTANT: Below is only for exceeds tasks 
     // <div class="modal-btn-container">
     //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
@@ -101,11 +100,12 @@ function generateModal(data) {
 
        
     }).join('');
+   
     containerDiv.innerHTML += userInfo;
    
     gallery.appendChild(containerDiv);
     console.log(gallery);
-    $('.modal-container').hide();
+   // $('.modal-container').hide();
 
 }
 
@@ -113,9 +113,9 @@ function eventListener(user){
 gallery.addEventListener('click', e => {
 
     if (e.target.className.includes('card')) {
-
+        
         generateModal(user);
-        $('.modal-container').show();
+      //  $('.modal-container').show();
     }
 
 });
