@@ -71,7 +71,8 @@ function generateModal(data) {
     const containerDiv = document.createElement('DIV');
     containerDiv.className = 'modal-container';
 
-    const modalString = users.map(user => {
+    let userInfo = users.map(user => {
+        // const modalString =  
         `
  <div class="modal-container">
 <div class="modal">
@@ -87,26 +88,28 @@ function generateModal(data) {
         <p class="modal-text">Birthday ${user.dob.date}</p>
     </div>
 </div>
-`
-
+`;
+        //containerDiv.innerHTML+= modalString;
     }).join('');
+    containerDiv.innerHTML += userInfo;
     // // IMPORTANT: Below is only for exceeds tasks 
     // <div class="modal-btn-container">
     //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
     //     <button type="button" id="modal-next" class="modal-next btn">Next</button>
     // </div>
     // </div>
-    containerDiv.innerHTML += modalString;
+
     gallery.appendChild(containerDiv);
     console.log(gallery);
-    
+    $('.modal-container').hide();
 
 }
 gallery.addEventListener('click', e => {
 
     if (e.target.className.includes('card')) {
 
-        generateModal(data);
+        generateModal(user);
+        $('.modal-container').show();
     }
 
 });
