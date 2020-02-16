@@ -2,7 +2,7 @@ const div = document.createElement('div');
 const formDiv = document.querySelector('.search-container');
 const gallery = document.getElementById('gallery');
 const body = document.querySelector('body');
-let user;
+let user = [];
 const xButton = document.getElementById('modal-close-btn');
 
 function fetchData(URL) { //reusable fetch function, parses user to JSON
@@ -16,7 +16,9 @@ fetchData("https://randomuser.me/api/?nat=US&results=12")
     .then(user => {
         generateGallery(user);
         generateModal(user);
-         generateForm();
+        eventListener(user);
+        console.log(eventListener(user));
+        generateForm();
     });
 
 function checkStatus(response) {
@@ -38,8 +40,8 @@ function generateForm() {
 </form>`;
 
 
-   formDiv.innerHTML += form;
-  
+    formDiv.innerHTML += form;
+
 }
 
 function generateGallery(user) { //Generates and displays user to gallery div
@@ -58,8 +60,8 @@ function generateGallery(user) { //Generates and displays user to gallery div
         <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
     </div>
 </div>`;
-     gallery.innerHTML += galleryDiv;
-       
+        gallery.innerHTML += galleryDiv;
+
     });
 
 }
@@ -68,7 +70,11 @@ function generateGallery(user) { //Generates and displays user to gallery div
 function generateModal(data) {
 
     users = data.results;
-    const modalDiv =  users.map(user => {
+    const containerDiv = document.createElement('DIV');
+    containerDiv.className = 'modal-container';
+
+    let userInfo = users.map(user => {
+      
         `
  <div class="modal-container">
 <div class="modal">
@@ -84,17 +90,39 @@ function generateModal(data) {
         <p class="modal-text">Birthday ${user.dob.date}</p>
     </div>
 </div>
-`;
 
-     gallery.appendChild(modalDiv);
-        // // IMPORTANT: Below is only for exceeds tasks 
-        // <div class="modal-btn-container">
-        //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-        //     <button type="button" id="modal-next" class="modal-next btn">Next</button>
-        // </div>
-        // </div>
-    })
+`;
+ // // IMPORTANT: Below is only for exceeds tasks 
+    // <div class="modal-btn-container">
+    //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+    //     <button type="button" id="modal-next" class="modal-next btn">Next</button>
+    // </div>
+    // </div>
+
+       
+    }).join('');
+    containerDiv.innerHTML += userInfo;
    
-    
+    gallery.appendChild(containerDiv);
+    console.log(gallery);
+    $('.modal-container').hide();
+
 }
 
+function eventListener(user){
+gallery.addEventListener('click', e => {
+
+    if (e.target.className.includes('card')) {
+
+        generateModal(user);
+        $('.modal-container').show();
+    }
+
+});
+
+}
+// const closeBtn = document.getElementById('modal-close-btn');
+// closeBtn.addEventListener('click',  () => {
+//     containerDiv.remove();
+
+// });
