@@ -104,10 +104,15 @@ function generateModal(user) {
     containerDiv.innerHTML += userInfo;
    
     gallery.appendChild(containerDiv);
-    console.log(gallery);
-
-
+    
+    const closeBtn = document.getElementById("modal-close-btn");
+    closeBtn.addEventListener('click',  () => {
+        containerDiv.removeChi();
+    
+    });
+    
 }
+
 
 function eventListener(user){
 gallery.addEventListener('click', e => {
@@ -121,8 +126,3 @@ gallery.addEventListener('click', e => {
 });
 
 }
-// const closeBtn= document.getElementById("modal-close-btn");
-// closeBtn.addEventListener('click',  () => {
-//     containerDiv.remove();
-
-// });
