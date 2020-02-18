@@ -107,7 +107,7 @@ function generateModal(user) {
     
     const closeBtn = document.getElementById("modal-close-btn");
     closeBtn.addEventListener('click',  () => {
-        containerDiv.removeChi();
+        containerDiv.remove();
     
     });
     
@@ -120,7 +120,7 @@ gallery.addEventListener('click', e => {
     if (e.target.className.includes('card')) {
         
         generateModal(user);
-
+       // console.log(generateModal(e.currentTarget));
     }
 
 });
