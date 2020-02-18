@@ -69,7 +69,7 @@ function generateModal(user) {
 
     users = user.results;
     const containerDiv = document.createElement('DIV');
-    containerDiv.className = 'modal-container';
+
     let userInfo ="";
    users.map(user => {
       
@@ -84,12 +84,13 @@ function generateModal(user) {
         <p class="modal-text cap">${user.location.city}</p>
         <hr>
         <p class="modal-text">${user.phone}</p>
-        <p class="modal-text">${user.location.street}, ${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
+        <p class="modal-text">${user.location.street.number}, ${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
         <p class="modal-text">Birthday ${user.dob.date}</p>
     </div>
 </div>
 
-`; userInfo += html;
+`; 
+userInfo = html;
 
  // // IMPORTANT: Below is only for exceeds tasks 
     // <div class="modal-btn-container">
@@ -120,9 +121,9 @@ gallery.addEventListener('click', e => {
     if (e.target.className.includes('card')) {
         
         generateModal(user);
-       // console.log(generateModal(e.currentTarget));
+        
     }
-
+    console.log(e.target);
 });
 
 }
