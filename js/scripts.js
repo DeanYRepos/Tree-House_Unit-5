@@ -1,10 +1,10 @@
-const div = document.createElement('div');
+
 const formDiv = document.querySelector('.search-container');
 const gallery = document.getElementById('gallery');
 const body = document.querySelector('body');
 let user = [];
 const xButton = document.getElementById('modal-close-btn');
-
+const containerDiv = document.createElement('DIV');
 function fetchData(URL) { //reusable fetch function, parses user to JSON
     return fetch(URL)
         .then(checkStatus)
@@ -68,12 +68,12 @@ function generateGallery(user) { //Generates and displays user to gallery div
 function generateModal(user) {
 
     users = user.results;
-    const containerDiv = document.createElement('DIV');
+    
 
-    let userInfo ="";
-   users.map(user => {
-      
-      let html =  `
+    let userInfo = "";
+    users.map(user => {
+
+        let html = `
  <div class="modal-container">
 <div class="modal">
     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -89,41 +89,60 @@ function generateModal(user) {
     </div>
 </div>
 
-`; 
-userInfo = html;
+`;
+        userInfo = html;
 
- // // IMPORTANT: Below is only for exceeds tasks 
-    // <div class="modal-btn-container">
-    //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-    //     <button type="button" id="modal-next" class="modal-next btn">Next</button>
-    // </div>
-    // </div>
+        // // IMPORTANT: Below is only for exceeds tasks 
+        // <div class="modal-btn-container">
+        //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+        //     <button type="button" id="modal-next" class="modal-next btn">Next</button>
+        // </div>
+        // </div>
 
-       
+
     }).join('');
-   
+
     containerDiv.innerHTML += userInfo;
-   
+
     gallery.appendChild(containerDiv);
-    
+
     const closeBtn = document.getElementById("modal-close-btn");
-    closeBtn.addEventListener('click',  () => {
+    closeBtn.addEventListener('click', () => {
         containerDiv.remove();
-    
+
     });
-    
+    console.log(containerDiv);
 }
 
 
-function eventListener(user){
-gallery.addEventListener('click', e => {
 
-    if (e.target.className.includes('card')) {
-        
-        generateModal(user);
-        
-    }
-    console.log(e.target);
-});
 
+// function eventListener(user){
+//     gallery.addEventListener('click', e => {
+    
+//         if (e.target.className.includes('card')) {
+            
+//             generateModal(user);
+            
+//         }
+//         console.log(e.target);
+//     });
+    
+//     }
+
+function eventListener(user) {
+
+    gallery.addEventListener('click', e => {
+        
+        if (e.target.className.includes('card')) {
+            for(let i = 0; i< user.length; i++){
+            if(user[i] === e.target){
+            generateModal(e.target);
+          
+            }
+            }
+
+    }   
+
+})
 }
