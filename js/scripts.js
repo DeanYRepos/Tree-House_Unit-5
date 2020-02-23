@@ -148,6 +148,7 @@ console.log('if');
 
 
 })
+}
 //     // console.log(user);
 //    for(let i = 0; i < users.length;i++){
 //        //console.log(users[i]);
@@ -161,7 +162,7 @@ console.log('if');
 //        generateModal(users,i);
 // }
 //        })
-   }
+   
    
 
         //let parseInt = parseInt(targetIndex,10);
