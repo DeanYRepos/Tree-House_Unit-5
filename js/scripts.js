@@ -16,6 +16,7 @@ fetchData("https://randomuser.me/api/?nat=US&results=12")
     .then(user => {
         generateGallery(user);
         eventListener(user);
+
         generateForm();
     });
 
@@ -44,13 +45,15 @@ function generateForm() {
 
 function generateGallery(user) { //Generates and displays user to gallery div
     user = user.results;
+   
+   
     user.map(person => {
-
+        
         const galleryDiv =
             `
 <div class="card">
     <div class="card-img-container">
-        <img class="card-img" src=${person.picture.large} alt=${person}
+        <img class="card-img" src=${person.picture.large} alt="profile picture">
     </div>
     <div class="card-info-container">
         <h3 id="name" class="card-name cap">${person.name.first} ${person.name.last}</h3>
@@ -67,11 +70,11 @@ function generateGallery(user) { //Generates and displays user to gallery div
 
 function generateModal(user) {
 
-    users = user.results;
-    
+   //users = user.results;
+  console.log(user);
 
-    let userInfo = "";
-    users.map(user => {
+  
+  // user.map(person => {
 
         let html = `
  <div class="modal-container">
@@ -100,9 +103,9 @@ function generateModal(user) {
         // </div>
 
 
-    }).join('');
+ // }).join('');
 
-    containerDiv.innerHTML += userInfo;
+    containerDiv.innerHTML  = userInfo;
 
     gallery.appendChild(containerDiv);
 
@@ -111,38 +114,87 @@ function generateModal(user) {
         containerDiv.remove();
 
     });
-    console.log(containerDiv);
+
 }
 
 
 
 
-// function eventListener(user){
-//     gallery.addEventListener('click', e => {
+function eventListener(user){  
+    // let cards = document.querySelector('.card');
+  let users = user.results;
+  
+gallery.addEventListener('click', (e) => {
+if(e.target.className === 'card'){
+for(let i = 0; i < users.length; i++){
+  
+generateModal(users[i])
+}
+console.log('if');
+
+}
+  
+   
     
-//         if (e.target.className.includes('card')) {
-            
-//             generateModal(user);
-            
-//         }
-//         console.log(e.target);
-//     });
-    
-//     }
+//    if(e.target.index === users.index){
 
-function eventListener(user) {
+//         console.log('if');
+//    }
+// if(e.target.className.includes('.card-info-container')){
+//        console.log(users);
 
-    gallery.addEventListener('click', e => {
-        
-        if (e.target.className.includes('card')) {
-            for(let i = 0; i< user.length; i++){
-            if(user[i] === e.target){
-            generateModal(e.target);
-          
-            }
-            }
 
-    }   
+// }
+
 
 })
-}
+//     // console.log(user);
+//    for(let i = 0; i < users.length;i++){
+//        //console.log(users[i]);
+//        users.index = i;
+//        console.log(users.index);
+//       // let cards = document.querySelector('.card');
+//        gallery.addEventListener('click', (e) => {
+//            console.log(e.target);
+// if(users.index === e.target[i]){
+//     console.log('if');
+//        generateModal(users,i);
+// }
+//        })
+   }
+   
+
+        //let parseInt = parseInt(targetIndex,10);
+
+        
+         // console.log( generateModal(targetIndex));
+            // generateModal(users);
+        
+    // users.forEach(card => {
+    //     if (e.target.className.includes('card') && e.target === card) {
+    //        // user.forEach(card => {
+             //   console.log(users);
+
+    //       //  })
+    //         //generateModal(user);
+    //   //   console.log(generateModal(e.target));
+    //     }
+    //     // console.log(e.target);
+    // })
+   
+    
+   // }
+
+// function eventListener(user) { //think about putting handler inside generate modal function to iterate 
+
+//     gallery.addEventListener('click', e => {
+        
+//         if (e.target.className.includes('card')) {
+            
+//           generateModal(user);
+
+
+//     }   
+
+// })
+// }
