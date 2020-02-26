@@ -1,18 +1,18 @@
-
 const formDiv = document.querySelector('.search-container');
 const gallery = document.getElementById('gallery');
 const body = document.querySelector('body');
-let user = [];
+//let user = [];
 const xButton = document.getElementById('modal-close-btn');
 const containerDiv = document.createElement('DIV');
+
 function fetchData(URL) { //reusable fetch function, parses user to JSON
     return fetch(URL)
         .then(checkStatus)
         .then(response => response.json())
         .catch(error => console.log('404 there was a problem!', error));
 }
-fetchData("https://randomuser.me/api/?nat=US&results=12")
-
+//fetchData("https://randomuser.me/api/?nat=US&results=12")
+fetchData("https://fsjs-public-api-backup.herokuapp.com/api")
     .then(user => {
         generateGallery(user);
         eventListener(user);
@@ -45,13 +45,13 @@ function generateForm() {
 
 function generateGallery(user) { //Generates and displays user to gallery div
     user = user.results;
-   
-   
+
+
     user.map(person => {
-        
+
         const galleryDiv =
             `
-<div class="card">
+<div class="card" >
     <div class="card-img-container">
         <img class="card-img" src=${person.picture.large} alt="profile picture">
     </div>
@@ -70,13 +70,13 @@ function generateGallery(user) { //Generates and displays user to gallery div
 
 function generateModal(user) {
 
-   //users = user.results;
-  console.log(user);
+    //users = user.results;
+    console.log(user);
 
-  
-  // user.map(person => {
 
-        let html = `
+    // user.map(person => {
+
+    let html = `
  <div class="modal-container">
 <div class="modal">
     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -93,19 +93,19 @@ function generateModal(user) {
 </div>
 
 `;
-        userInfo = html;
+    userInfo = html;
 
-        // // IMPORTANT: Below is only for exceeds tasks 
-        // <div class="modal-btn-container">
-        //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-        //     <button type="button" id="modal-next" class="modal-next btn">Next</button>
-        // </div>
-        // </div>
+    // // IMPORTANT: Below is only for exceeds tasks 
+    // <div class="modal-btn-container">
+    //     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+    //     <button type="button" id="modal-next" class="modal-next btn">Next</button>
+    // </div>
+    // </div>
 
 
- // }).join('');
+    // }).join('');
 
-    containerDiv.innerHTML  = userInfo;
+    containerDiv.innerHTML = userInfo;
 
     gallery.appendChild(containerDiv);
 
@@ -120,22 +120,31 @@ function generateModal(user) {
 
 
 
-function eventListener(user){  
+function eventListener(user) {
     // let cards = document.querySelector('.card');
-  let users = user.results;
-  
-gallery.addEventListener('click', (e) => {
-if(e.target.className === 'card'){
-for(let i = 0; i < users.length; i++){
-  
-generateModal(users[i])
-}
-console.log('if');
+    let users = user.results;
 
+    gallery.addEventListener('click', (e) => {
+        //console.log(e.target);
+        if (e.target.className === 'card') {
+            for (let key in users) {
+                //console.log(key);
+
+                if (key[name] === e.target[name]) {
+                   // generateModal(key);
+                    console.log(generateModal(key[name]));
+                    // }
+                }
+              //  console.log('if');
+
+            }
+
+        }
+
+
+    })
 }
-  
-   
-    
+
 //    if(e.target.index === users.index){
 
 //         console.log('if');
@@ -144,11 +153,7 @@ console.log('if');
 //        console.log(users);
 
 
-// }
 
-
-})
-}
 //     // console.log(user);
 //    for(let i = 0; i < users.length;i++){
 //        //console.log(users[i]);
@@ -162,36 +167,36 @@ console.log('if');
 //        generateModal(users,i);
 // }
 //        })
-   
-   
 
-        //let parseInt = parseInt(targetIndex,10);
 
-        
-         // console.log( generateModal(targetIndex));
-            // generateModal(users);
-        
-    // users.forEach(card => {
-    //     if (e.target.className.includes('card') && e.target === card) {
-    //        // user.forEach(card => {
-             //   console.log(users);
 
-    //       //  })
-    //         //generateModal(user);
-    //   //   console.log(generateModal(e.target));
-    //     }
-    //     // console.log(e.target);
-    // })
-   
-    
-   // }
+//let parseInt = parseInt(targetIndex,10);
+
+
+// console.log( generateModal(targetIndex));
+// generateModal(users);
+
+// users.forEach(card => {
+//     if (e.target.className.includes('card') && e.target === card) {
+//        // user.forEach(card => {
+//   console.log(users);
+
+//       //  })
+//         //generateModal(user);
+//   //   console.log(generateModal(e.target));
+//     }
+//     // console.log(e.target);
+// })
+
+
+// }
 
 // function eventListener(user) { //think about putting handler inside generate modal function to iterate 
 
 //     gallery.addEventListener('click', e => {
-        
+
 //         if (e.target.className.includes('card')) {
-            
+
 //           generateModal(user);
 
 
