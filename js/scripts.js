@@ -56,7 +56,7 @@ function generateGallery(user) { //Generates and displays users to gallery div
 </div>`;
 
     });
-    gallery.innerHTML += galleryDiv;
+    gallery.innerHTML += galleryDiv.join('');
 
 }
 
@@ -73,7 +73,7 @@ function generateModal(user, i) { //generates and displays user modal to created
         <p class="modal-text cap">${user[i].location.city}</p>
         <hr>
         <p class="modal-text">${user[i].phone}</p>
-        <p class="modal-text">${user[i].location.street.number}, ${user[i].location.city}, ${user[i].location.state} ${user[i].location.postcode}</p>
+        <p class="modal-text">${user[i].location.street.number} ${user[i].location.street.name}, ${user[i].location.city}, ${user[i].location.state} ${user[i].location.postcode}</p>
         <p class="modal-text">Birthday ${user[i].dob.date.slice(0, 10)}</p>
     </div>
 </div>
