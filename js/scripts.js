@@ -3,6 +3,8 @@ const gallery = document.getElementById('gallery');
 const body = document.querySelector('body');
 let cards = document.querySelectorAll('.card');
 const containerDiv = document.createElement('DIV');
+const next = document.getElementById("modal-next");
+
 
 function fetchData(URL) { //reusable fetch function, parses user to JSON
     return fetch(URL)
@@ -10,8 +12,8 @@ function fetchData(URL) { //reusable fetch function, parses user to JSON
         .then(response => response.json())
         .catch(error => console.log('404 there was a problem!', error));
 }
-fetchData("https://randomuser.me/api/?nat=US&results=12")       //fetch data function, fetches 12 users iteratates users in callback function
-                                                                // calls functions to generate gallery, form and, event handler
+fetchData("https://randomuser.me/api/?nat=US&results=12") //fetch data function, fetches 12 users iteratates users in callback function
+                                                            // calls functions to generate gallery, form and, event handler
     .then(user => {
         generateGallery(user.results);
         eventListener(user.results);
@@ -19,7 +21,7 @@ fetchData("https://randomuser.me/api/?nat=US&results=12")       //fetch data fun
         generateForm();
     });
 
-function checkStatus(response) {     //function checks status of promise and returns response
+function checkStatus(response) { //function checks status of promise and returns response
     if (response.ok) {
         return Promise.resolve(response);
 
@@ -29,7 +31,7 @@ function checkStatus(response) {     //function checks status of promise and ret
 
 }
 
-function generateForm() {   // function generates form for search bar
+function generateForm() { // function generates form for search bar
 
     const form = ` <form action="#" method="get">
 <input type="search" id="search-input" class="search-input" placeholder="Search...">
@@ -61,7 +63,8 @@ function generateGallery(user) { //Generates and displays users to gallery div
 }
 
 function generateModal(user, i) { //generates and displays user modal to created div element
-
+    const originalDOB = new Date(user[i].dob.date);
+    const formattedDOB = originalDOB.toLocaleDateString(); //reformatted birth date
     let html = `
  <div class="modal-container">
 <div class="modal">
@@ -74,43 +77,59 @@ function generateModal(user, i) { //generates and displays user modal to created
         <hr>
         <p class="modal-text">${user[i].phone}</p>
         <p class="modal-text">${user[i].location.street.number} ${user[i].location.street.name}, ${user[i].location.city}, ${user[i].location.state} ${user[i].location.postcode}</p>
-        <p class="modal-text">Birthday ${user[i].dob.date.slice(0, 10)}</p>
+        <p class="modal-text">Birthday ${formattedDOB}</p>
     </div>
 </div>
+<div class="modal-btn-container">
+    <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
+    <button type="button" id="modal-next" class="modal-next btn">Next</button>
+</div>
+
 
 `;
     containerDiv.innerHTML = html;
     return containerDiv;
 }
-// // IMPORTANT: Below is only for exceeds tasks 
-// <div class="modal-btn-container">
-//     <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-//     <button type="button" id="modal-next" class="modal-next btn">Next</button>
-// </div>
-// </div>
 
-
-function eventListener(user) {  //function iterates through users cards, when clicked modal function is called and appended to body
-                                //close modal function called to close modal when X button is clicked
+function eventListener(user) { //function iterates through users cards, when clicked modal function is called and appends modal to body
+                                 //close modal function called to close modal when X button is clicked
     let cards = document.querySelectorAll('.card');
-
     console.log('handler');
-
-
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener('click', () => {
             console.log(user);
             body.appendChild(generateModal(user, i));
+            nextPrevModal(user, i);
             closeModal();
 
+
         })
+
     }
+
 }
 
-function closeModal() {     //function when called will close modal when X button is clicked
+function closeModal() { //function when called will close modal when X button is clicked
     const closeBtn = document.getElementById("modal-close-btn");
     closeBtn.addEventListener('click', () => {
         containerDiv.remove();
 
     })
+}
+
+function nextPrevModal(user, i) {
+    const buttonContainer = document.querySelector(".modal-btn-container")
+    buttonContainer.addEventListener('click', e => {
+
+        if (e.target.id === "modal-next") {
+            console.log('if');
+            generateModal(user, i + 1);
+
+            console.log(i + 1);
+        } else (e.target.id === "prev-modal")
+            console.log(e.target);
+            generateModal(user, i - 1);
+        closeModal();
+    })
+
 }
