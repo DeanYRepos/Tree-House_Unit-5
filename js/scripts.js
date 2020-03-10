@@ -4,7 +4,8 @@ const body = document.querySelector('body');
 let cards = document.querySelectorAll('.card');
 const containerDiv = document.createElement('DIV');
 const next = document.getElementById("modal-next");
-
+const prev = document.getElementById("modal-prev");
+const modalCounter = 0;
 
 function fetchData(URL) { //reusable fetch function, parses user to JSON
     return fetch(URL)
@@ -13,7 +14,7 @@ function fetchData(URL) { //reusable fetch function, parses user to JSON
         .catch(error => console.log('404 there was a problem!', error));
 }
 fetchData("https://randomuser.me/api/?nat=US&results=12") //fetch data function, fetches 12 users iteratates users in callback function
-                                                            // calls functions to generate gallery, form and, event handler
+    // calls functions to generate gallery, form and, event handler
     .then(user => {
         generateGallery(user.results);
         eventListener(user.results);
@@ -89,17 +90,38 @@ function generateModal(user, i) { //generates and displays user modal to created
 `;
     containerDiv.innerHTML = html;
     return containerDiv;
+    
 }
 
 function eventListener(user) { //function iterates through users cards, when clicked modal function is called and appends modal to body
-                                 //close modal function called to close modal when X button is clicked
+    //close modal function called to close modal when X button is clicked
+    
+    const buttonContainer = document.querySelectorAll(".modal-btn-container");
+    
     let cards = document.querySelectorAll('.card');
-    console.log('handler');
+   console.log(buttonContainer);
+    
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener('click', () => {
             console.log(user);
             body.appendChild(generateModal(user, i));
-            nextPrevModal(user, i);
+            for(let j = 0; j < buttonContainer.length; j++ ){
+            buttonContainer[j].addEventListener('click', e => {
+              //  console.log('clicked');
+                if (e.target.id === "modal-next") {
+                    console.log('if');
+                    generateModal(user, i + 1);
+                    closeModal();
+                    console.log(i + 1);
+                } else if (e.target.id === "prev-modal") {
+                    console.log(e.target);
+                    generateModal(user, i - 1);
+                    closeModal();
+                }
+                
+            })
+        }
+            // nextPrevModal(user, i);
             closeModal();
 
 
@@ -117,19 +139,40 @@ function closeModal() { //function when called will close modal when X button is
     })
 }
 
-function nextPrevModal(user, i) {
-    const buttonContainer = document.querySelector(".modal-btn-container")
-    buttonContainer.addEventListener('click', e => {
+// function nextPrevModal(user, i) {
+// //     const galleyChild = gallery.children;
+// // next.addEventListener("click", () => {
+// // modalCounter = (modalCounter += 1) % user.length;
+// // console.log(modalCounter);
+// // containerDiv = [...user].map((i)=> i)[modalCounter];
+// // //galleyChild
 
-        if (e.target.id === "modal-next") {
-            console.log('if');
-            generateModal(user, i + 1);
 
-            console.log(i + 1);
-        } else (e.target.id === "prev-modal")
-            console.log(e.target);
-            generateModal(user, i - 1);
-        closeModal();
-    })
+// // })
 
-}
+
+
+
+
+
+
+
+
+
+
+//     const buttonContainer = document.querySelector(".modal-btn-container");
+//     buttonContainer.addEventListener('click', e => {
+
+//         if (e.target.id === "modal-next") {
+//             console.log('if');
+//             generateModal(user, i + 1);
+
+//             console.log(i + 1);
+//         } else if (e.target.id === "prev-modal"){
+//             console.log(e.target);
+//             generateModal(user, i - 1);
+//         closeModal();
+//     }
+//     })
+
+// }
