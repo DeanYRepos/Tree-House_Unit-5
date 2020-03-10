@@ -7,7 +7,7 @@ const next = document.getElementById("modal-next");
 const prev = document.getElementById("modal-prev");
 const modalCounter = 0;
 const buttonContainer = document.getElementsByClassName("modal-btn-container");
-    
+
 function fetchData(URL) { //reusable fetch function, parses user to JSON
     return fetch(URL)
         .then(checkStatus)
@@ -66,8 +66,9 @@ function generateGallery(user) { //Generates and displays users to gallery div
 
 function generateModal(user, i) { //generates and displays user modal to created div element
     const originalDOB = new Date(user[i].dob.date);
+    console.log(originalDOB);
     const formattedDOB = originalDOB.toLocaleDateString(); //reformatted birth date
-    
+
     let html = `
  <div class="modal-container">
 <div class="modal">
@@ -93,57 +94,52 @@ function generateModal(user, i) { //generates and displays user modal to created
 
     containerDiv.innerHTML = html;
 
-    body.appendChild( containerDiv);
-           for(let j = 0; j < buttonContainer.length; j++ ){
-          
-                buttonContainer[j].addEventListener('click', e => {
-                console.log('clicked');
-                if (e.target.id === "modal-next") {
-                    console.log('if');
-                    generateModal(user, i + 1);
-                    closeModal();
-                    console.log(i + 1);
-                } else if (e.target.id === "modal-prev") {
-                    console.log(e.target);
-                    generateModal(user, i - 1);
-                    closeModal();
-                }
+    body.appendChild(containerDiv);
+    for (let j = 0; j < buttonContainer.length; j++) {
+
+        buttonContainer[j].addEventListener('click', e => {
+            console.log('clicked');
+            if (e.target.id === "modal-next") {
                 
-            })
-        }
-        
+                // generateModal(user, i + 1);
+                // closeModal();
+                console.log(i + 1);
+                if(i === user.length -1){
+                    console.log('if');
+                    i = 0;
+                    //generateModal(user[i]);
+                }
+                generateModal(user, i + 1);
+                closeModal();
+            } else if (e.target.id === "modal-prev") {
+                console.log(e.target);
+                // generateModal(user, i - 1);
+               // closeModal();
+                if(i === 0){
+                    i = user.length;
+                   // generateModal(user,i);
+                }
+                generateModal(user, i - 1);
+                closeModal();
+            }
+
+        })
+    }
+
 }
-    
+
 function eventListener(user) { //function iterates through users cards, when clicked modal function is called and appends modal to body
-    //close modal function called to close modal when X button is clicked
-    
-    
+                                //close modal function called to close modal when X button is clicked
+
+
     let cards = document.querySelectorAll('.card');
-   console.log(buttonContainer);
-    
+    console.log(buttonContainer);
+
     for (let i = 0; i < cards.length; i++) {
         cards[i].addEventListener('click', () => {
-           
+
             generateModal(user, i);
-           
-        //     for(let j = 0; j < buttonContainer.length; j++ ){
-          
-        //         buttonContainer[j].addEventListener('click', e => {
-        //         console.log('clicked');
-        //         if (e.target.id === "modal-next") {
-        //             console.log('if');
-        //             generateModal(user, i + 1);
-        //             closeModal();
-        //             console.log(i + 1);
-        //         } else if (e.target.id === "modal-prev") {
-        //             console.log(e.target);
-        //             generateModal(user, i - 1);
-        //             closeModal();
-        //         }
-                
-        //     })
-        // }
-            // nextPrevModal(user, i);
+
             closeModal();
 
 
@@ -161,16 +157,6 @@ function closeModal() { //function when called will close modal when X button is
     })
 }
 
-// function nextPrevModal(user, i) {
-// //     const galleyChild = gallery.children;
-// // next.addEventListener("click", () => {
-// // modalCounter = (modalCounter += 1) % user.length;
-// // console.log(modalCounter);
-// // containerDiv = [...user].map((i)=> i)[modalCounter];
-// // //galleyChild
-
-
-// // })
 
 
 
@@ -182,19 +168,4 @@ function closeModal() { //function when called will close modal when X button is
 
 
 
-//     const buttonContainer = document.querySelector(".modal-btn-container");
-//     buttonContainer.addEventListener('click', e => {
 
-//         if (e.target.id === "modal-next") {
-//             console.log('if');
-//             generateModal(user, i + 1);
-
-//             console.log(i + 1);
-//         } else if (e.target.id === "prev-modal"){
-//             console.log(e.target);
-//             generateModal(user, i - 1);
-//         closeModal();
-//     }
-//     })
-
-// }
