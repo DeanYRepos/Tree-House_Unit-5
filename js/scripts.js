@@ -5,8 +5,8 @@ let cards = document.querySelectorAll('.card');
 const containerDiv = document.createElement('DIV');
 const next = document.getElementById("modal-next");
 const prev = document.getElementById("modal-prev");
-const modalCounter = 0;
 const buttonContainer = document.getElementsByClassName("modal-btn-container");
+const searchInput = document.querySelector(".search-input");
 
 function fetchData(URL) { //reusable fetch function, parses user to JSON
     return fetch(URL)
@@ -14,13 +14,13 @@ function fetchData(URL) { //reusable fetch function, parses user to JSON
         .then(response => response.json())
         .catch(error => console.log('404 there was a problem!', error));
 }
-fetchData("https://randomuser.me/api/?nat=US&results=12") //fetch data function, fetches 12 users iteratates users in callback function
-    // calls functions to generate gallery, form and, event handler
+fetchData("https://fsjs-public-api-backup.herokuapp.com/api") //fetch data function, fetches 12 users iteratates users in callback function
+//"https://randomuser.me/api/?nat=US&results=12"                                             // calls functions to generate gallery, form and, event handler
     .then(user => {
         generateGallery(user.results);
         eventListener(user.results);
-
         generateForm();
+        // keyUp();
     });
 
 function checkStatus(response) { //function checks status of promise and returns response
@@ -100,24 +100,22 @@ function generateModal(user, i) { //generates and displays user modal to created
         buttonContainer[j].addEventListener('click', e => {
             console.log('clicked');
             if (e.target.id === "modal-next") {
-                
-                // generateModal(user, i + 1);
-                // closeModal();
+
+
                 console.log(i + 1);
-                if(i === user.length -1){
+                if (i === user.length - 1) {
                     console.log('if');
                     i = 0;
-                    //generateModal(user[i]);
+
                 }
                 generateModal(user, i + 1);
                 closeModal();
             } else if (e.target.id === "modal-prev") {
                 console.log(e.target);
-                // generateModal(user, i - 1);
-               // closeModal();
-                if(i === 0){
+
+                if (i === 0) {
                     i = user.length;
-                   // generateModal(user,i);
+                    // generateModal(user,i);
                 }
                 generateModal(user, i - 1);
                 closeModal();
@@ -129,7 +127,7 @@ function generateModal(user, i) { //generates and displays user modal to created
 }
 
 function eventListener(user) { //function iterates through users cards, when clicked modal function is called and appends modal to body
-                                //close modal function called to close modal when X button is clicked
+    //close modal function called to close modal when X button is clicked
 
 
     let cards = document.querySelectorAll('.card');
@@ -157,15 +155,39 @@ function closeModal() { //function when called will close modal when X button is
     })
 }
 
+function filter (e){ 
+    
+    
+//let cardName = document.querySelectorAll(".card-name cap");
+
+e.preventDefault();
+let inputValue = searchInput.value.toUpperCase();
 
 
 
+for(let i = 0; i < cards.length; i++){     // code found at https://www.w3schools.com/howto/howto_js_filter_lists.asp
+    let h3 = cards[i].getElementsByTagName("h3")[0];
+   let textValue = h3.textContent;
+if(textValue.toUpperCase().indexOf(inputValue) > -1){
+
+    cards[i].style.display = '';
+}else {
+
+    cards[i].style.display = 'none';
+}
+
+}
+
+}
 
 
+function keyUp (){
+searchInput.addEventListener('keyup', (e) => {
 
+filter(e);
 
+})
 
-
-
-
+}
+keyUp();
 
