@@ -6,7 +6,7 @@ const containerDiv = document.createElement('DIV');
 const next = document.getElementById("modal-next");
 const prev = document.getElementById("modal-prev");
 const buttonContainer = document.getElementsByClassName("modal-btn-container");
-const searchInput = document.querySelector(".search-input");
+let searchInput;
 
 function fetchData(URL) { //reusable fetch function, parses user to JSON
     return fetch(URL)
@@ -15,12 +15,12 @@ function fetchData(URL) { //reusable fetch function, parses user to JSON
         .catch(error => console.log('404 there was a problem!', error));
 }
 fetchData("https://fsjs-public-api-backup.herokuapp.com/api") //fetch data function, fetches 12 users iteratates users in callback function
-//"https://randomuser.me/api/?nat=US&results=12"                                             // calls functions to generate gallery, form and, event handler
+    //"https://randomuser.me/api/?nat=US&results=12"                                             // calls functions to generate gallery, form and, event handler
     .then(user => {
         generateGallery(user.results);
         eventListener(user.results);
         generateForm();
-        // keyUp();
+
     });
 
 function checkStatus(response) { //function checks status of promise and returns response
@@ -41,7 +41,8 @@ function generateForm() { // function generates form for search bar
 </form>`;
 
     formDiv.innerHTML += form;
-
+    searchInput = document.getElementById('search-input');
+    keyUp();
 }
 
 function generateGallery(user) { //Generates and displays users to gallery div
@@ -155,39 +156,38 @@ function closeModal() { //function when called will close modal when X button is
     })
 }
 
-function filter (e){ 
-    
-    
-//let cardName = document.querySelectorAll(".card-name cap");
-
-e.preventDefault();
-let inputValue = searchInput.value.toUpperCase();
+function filter(e) {
 
 
+    //let cardName = document.querySelectorAll(".card-name cap");
+    let cards = document.querySelectorAll('.card');
+    e.preventDefault();
+    let inputValue = searchInput.value.toUpperCase();
+console.log(inputValue);
+console.log(cards.length);
 
-for(let i = 0; i < cards.length; i++){     // code found at https://www.w3schools.com/howto/howto_js_filter_lists.asp
-    let h3 = cards[i].getElementsByTagName("h3")[0];
-   let textValue = h3.textContent;
-if(textValue.toUpperCase().indexOf(inputValue) > -1){
+    for (let i = 0; i < cards.length; i++) { // code found at https://www.w3schools.com/howto/howto_js_filter_lists.asp
+        let h3 = cards[i].getElementsByTagName("h3")[0];
+        let textValue = h3.textContent;
+        console.log('for');
+        if (textValue.toUpperCase().indexOf(inputValue) > -1) {
+            console.log('if');
+            cards[i].style.display = '';
+        } else {
+                console.log("else");
+            cards[i].style.display = 'none';
+        }
 
-    cards[i].style.display = '';
-}else {
-
-    cards[i].style.display = 'none';
-}
-
-}
-
-}
-
-
-function keyUp (){
-searchInput.addEventListener('keyup', (e) => {
-
-filter(e);
-
-})
+    }
 
 }
-keyUp();
 
+
+function keyUp() {
+    searchInput.addEventListener('keyup', (e) => {
+
+        filter(e);
+
+    })
+
+}
