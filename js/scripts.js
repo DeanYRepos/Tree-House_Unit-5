@@ -14,8 +14,8 @@ function fetchData(URL) { //reusable fetch function, parses user to JSON
         .then(response => response.json())
         .catch(error => console.log('404 there was a problem!', error));
 }
-fetchData("https://fsjs-public-api-backup.herokuapp.com/api") //fetch data function, fetches 12 users iteratates users in callback function
-    //"https://randomuser.me/api/?nat=US&results=12"                                             // calls functions to generate gallery, form and, event handler
+fetchData("https://randomuser.me/api/?nat=US&results=12") //fetch data function, fetches 12 users iteratates users in callback function
+                                                         // calls functions to generate gallery, form and, event handler
     .then(user => {
         generateGallery(user.results);
         eventListener(user.results);
@@ -65,8 +65,8 @@ function generateGallery(user) { //Generates and displays users to gallery div
 
 }
 
-function generateModal(user, i) { //generates and displays user modal to created div element
-    const originalDOB = new Date(user[i].dob.date);
+function generateModal(user, i) {    //generates and displays user modal to created div element
+    const originalDOB = new Date(user[i].dob.date); 
     console.log(originalDOB);
     const formattedDOB = originalDOB.toLocaleDateString(); //reformatted birth date
 
@@ -96,14 +96,14 @@ function generateModal(user, i) { //generates and displays user modal to created
     containerDiv.innerHTML = html;
 
     body.appendChild(containerDiv);
-    for (let j = 0; j < buttonContainer.length; j++) {
+    for (let j = 0; j < buttonContainer.length; j++) {  // generates and cycles through modals when next/prev buttons clicked
 
         buttonContainer[j].addEventListener('click', e => {
             console.log('clicked');
             if (e.target.id === "modal-next") {
 
 
-                console.log(i + 1);
+                
                 if (i === user.length - 1) {
                     console.log('if');
                     i = 0;
@@ -116,7 +116,7 @@ function generateModal(user, i) { //generates and displays user modal to created
 
                 if (i === 0) {
                     i = user.length;
-                    // generateModal(user,i);
+                   
                 }
                 generateModal(user, i - 1);
                 closeModal();
@@ -128,7 +128,7 @@ function generateModal(user, i) { //generates and displays user modal to created
 }
 
 function eventListener(user) { //function iterates through users cards, when clicked modal function is called and appends modal to body
-    //close modal function called to close modal when X button is clicked
+                             //close modal function called to close modal when X button is clicked
 
 
     let cards = document.querySelectorAll('.card');
@@ -156,15 +156,15 @@ function closeModal() { //function when called will close modal when X button is
     })
 }
 
-function filter(e) {
+function filter(e) { //filters and displays cards 
 
 
-    //let cardName = document.querySelectorAll(".card-name cap");
+   
     let cards = document.querySelectorAll('.card');
     e.preventDefault();
     let inputValue = searchInput.value.toUpperCase();
 console.log(inputValue);
-console.log(cards.length);
+
 
     for (let i = 0; i < cards.length; i++) { // code found at https://www.w3schools.com/howto/howto_js_filter_lists.asp
         let h3 = cards[i].getElementsByTagName("h3")[0];
@@ -183,7 +183,7 @@ console.log(cards.length);
 }
 
 
-function keyUp() {
+function keyUp() {   //listner function calls filter function when key is pressed
     searchInput.addEventListener('keyup', (e) => {
 
         filter(e);
